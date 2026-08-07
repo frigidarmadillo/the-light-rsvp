@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>The Light – Album Launch</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black: #0D0D0D;
+  --charcoal: #1A1A1A;
+  --dark-grey: #2A2A2A;
+  --warm-grey: #3D3D3D;
+  --mid-grey: #6B6B6B;
+  --light-grey: #A0A0A0;
+  --off-white: #F2EDE8;
+  --cream: #E8E0D4;
+  --white: #FFFFFF;
+  --gold: #D4A843;
+  --amber: #C8963E;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--black);
+  color: var(--off-white);
+  overflow-x: hidden;
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+
+/* ============================================
+   DESKTOP: Fullscreen slide experience
+   ============================================ */
+.desktop-parallax {
+  display: block;
+}
+
+.parallax-scroll-container {
+  height: 500vh;
+  position: relative;
+}
+
+/* Background image layers */
+.bg-layer {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1;
+}
+
+.bg-layer::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(to bottom, rgba(13,13,13,0.55) 0%, rgba(13,13,13,0.7) 50%, rgba(13,13,13,0.85) 100%);
+}
+
+.bg-layer.active { opacity: 1; }
+
+.bg-1 { background-image: url('1.jpg'); }
+.bg-2 { background-image: url('2.jpg'); }
+.bg-3 { background-image: url('3.jpg'); }
+.bg-4 { background-image: url('4.jpg'); }
+
+.bg-2 { background-size: cover; background-position: center 55%; }
+.bg-3 { background-size: 80% auto; background-position: center 30%; }
+
+
+/* Scroll hint */
+.desktop-scroll-hint {
+  position: fixed;
+  bottom: 2.5rem; left: 50%;
+  transform: translateX(-50%);
+  z-index: 102;
+  text-align: center;
+}
+
+.desktop-scroll-hint span {
+  font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--mid-grey); display: block; margin-bottom: 0.5rem;
+}
+
+.desktop-scroll-hint-line {
+  width: 1px; height: 40px;
+  background: linear-gradient(to bottom, transparent, var(--mid-grey));
+  margin: 0 auto; position: relative;
+}
+
+.desktop-scroll-hint-line::after {
+  content: '';
+  position: absolute; bottom: 0; left: -2px;
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--gold);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Content layers */
+.desktop-content-layer {
+  position: fixed; top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  display: flex; align-items: center; justify-content: center; flex-direction: column;
+  padding: 2rem;
+  opacity: 0; transform: translateY(30px);
+  z-index: 50; pointer-events: none;
+}
+
+/* ============================================
+   MOBILE: Scrollable sections
+   ============================================ */
+.mobile-flow {
+  display: none;
+}
+
+.mobile-section {
+  min-height: 100vh;
+  min-height: 100dvh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: clamp(3rem,6vw,5rem) 1.5rem;
+}
+
+.mobile-section .bg-img {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+}
+
+.mobile-section .bg-img::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(to bottom, rgba(13,13,13,0.5) 0%, rgba(13,13,13,0.7) 50%, rgba(13,13,13,0.85) 100%);
+}
+
+.mobile-section .section-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 500px;
+}
+
+/* ============================================
+   SHARED: Content styles
+   ============================================ */
+.divider {
+  width: 30px; height: 1px;
+  background: var(--gold); opacity: 0.6;
+  margin: 0 auto 2rem;
+}
+
+.section-label {
+  font-size: 0.65rem; letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--gold); text-align: center; margin-bottom: 2rem;
+}
+
+.details-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 2rem; text-align: left; max-width: 700px; margin: 0 auto;
+}
+
+.detail-item {
+  border-left: 1px solid var(--warm-grey);
+  padding-left: 1.2rem;
+  transition: border-color 0.6s ease, transform 0.6s ease;
+}
+
+.detail-item:hover {
+  border-left-color: var(--gold);
+  transform: translateX(4px);
+}
+
+.detail-item h3 {
+  font-size: 1rem; font-weight: 500; color: var(--off-white); margin-bottom: 0.2rem;
+}
+
+.detail-item p {
+  font-size: 0.8rem; color: var(--white); font-weight: 300;
+}
+
+.experience-highlight {
+  font-size: clamp(1rem, 2.2vw, 1.4rem);
+  font-weight: 400; color: var(--cream);
+  margin-bottom: 2rem; line-height: 1.7; text-align: center;
+  max-width: 600px; margin-left: auto; margin-right: auto;
+}
+
+.experience-body {
+  font-size: 0.9rem; color: var(--white);
+  line-height: 2.1; font-weight: 300; text-align: center;
+  max-width: 520px; margin: 0 auto;
+}
+
+/* Form styles */
+.rsvp-container {
+  max-width: 500px; width: 100%;
+}
+
+.rsvp-container h2 {
+  font-size: 1.4rem; font-weight: 400; text-align: center; margin-bottom: 0.5rem;
+}
+
+.section-sub {
+  text-align: center; color: #ffffff; font-size: 0.8rem; margin-bottom: 2.5rem;
+}
+
+.form-field { margin-bottom: 1.8rem; }
+
+.form-field label {
+  display: block; font-size: 0.65rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: #ffffff; margin-bottom: 0.5rem;
+}
+
+.form-field input, .form-field select {
+  width: 100%; padding: 0.8rem 0;
+  font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 300;
+  border: none; border-bottom: 1px solid var(--light-grey);
+  background: transparent; color: #ffffff;
+  transition: border-color 0.4s ease; border-radius: 0; -webkit-appearance: none;
+}
+
+.form-field input:focus, .form-field select:focus {
+  outline: none; border-bottom-color: var(--gold);
+}
+
+.form-field input::placeholder { color: rgba(255,255,255,0.5); }
+.form-field input.capitalize { text-transform: capitalize; }
+.form-field input.error { border-bottom-color: #8b3a3a; }
+
+.form-field .error-msg {
+  display: none; font-size: 0.7rem; color: #c45a5a; margin-top: 0.4rem;
+}
+.form-field .error-msg.visible { display: block; }
+
+.form-field select {
+  cursor: pointer; appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B6B6B' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 0 center; padding-right: 1.5rem;
+}
+
+.form-field select option { background: var(--charcoal); color: var(--off-white); }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+
+/* Submit button */
+.submit-btn {
+  display: block; width: 100%; margin-top: 2.5rem; padding: 1.2rem;
+  font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 500;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--off-white); background: var(--charcoal);
+  border: 1px solid var(--warm-grey); border-radius: 2px;
+  cursor: pointer; position: relative; overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.submit-btn::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  opacity: 0; transition: opacity 0.5s ease;
+  background: repeating-radial-gradient(circle at center, transparent 0%, rgba(212,168,67,0.12) 6%, transparent 8%, transparent 10%, rgba(200,150,62,0.08) 12%, transparent 14%, transparent 18%, rgba(180,140,50,0.1) 20%, transparent 22%), linear-gradient(135deg, transparent 15%, rgba(255,255,255,0.1) 30%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 70%, transparent 85%), radial-gradient(ellipse at center, rgba(212, 168, 67, 0.25) 0%, rgba(200, 150, 62, 0.3) 40%, rgba(40,30,20,0.9) 80%);
+}
+
+.submit-btn:hover {
+  border-color: var(--gold); transform: translateY(-2px);
+  box-shadow: 0 8px 35px rgba(212, 168, 67, 0.2), 0 4px 15px rgba(200, 150, 62, 0.15);
+  color: #fff;
+}
+.submit-btn:hover::before { opacity: 1; }
+.submit-btn:active { transform: translateY(0); }
+.submit-btn span { position: relative; z-index: 2; }
+
+.success-state { display: none; text-align: center; padding: 3rem 0; }
+.success-state h3 { font-size: 1.4rem; font-weight: 400; margin-bottom: 0.8rem; color: var(--gold); }
+.success-state p { color: var(--white); font-size: 0.85rem; }
+
+.site-footer {
+  text-align: center; padding: 3rem 2rem 2.5rem;
+  border-top: 1px solid var(--dark-grey); max-width: 900px; margin: 0 auto;
+  position: relative; z-index: 5;
+}
+.site-footer a {
+  color: var(--white); text-decoration: none; font-size: 0.7rem;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  margin: 0 1rem; transition: color 0.3s ease;
+}
+.site-footer a:hover { color: var(--gold); }
+.site-footer p { font-size: 0.65rem; color: var(--white); margin-top: 1rem; letter-spacing: 0.1em; }
+
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+/* Mobile scroll reveal */
+.js-ready .mobile-flow .reveal {
+  opacity: 0; transform: translateY(25px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.js-ready .mobile-flow .reveal.visible { opacity: 1; transform: translateY(0); }
+.stagger-1 { transition-delay: 0.05s; }
+.stagger-2 { transition-delay: 0.1s; }
+.stagger-3 { transition-delay: 0.15s; }
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 767px) {
+  .desktop-parallax { display: none !important; }
+  .mobile-flow { display: block !important; }
+}
+
+@media (min-width: 768px) {
+  .desktop-parallax { display: block !important; }
+  .mobile-flow { display: none !important; }
+}
+
+@media (max-width: 600px) {
+  .details-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+  .form-row { grid-template-columns: 1fr; }
+}
+
+@media (hover: none) {
+  .detail-item:hover { border-left-color: var(--warm-grey); transform: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ==========================================
+     DESKTOP: Parallax with sliding backgrounds
+     ========================================== -->
+<div class="desktop-parallax">
+  <div class="parallax-scroll-container" id="parallaxContainer">
+
+    <!-- Background image layers - each slide gets its own photo -->
+    <div class="bg-layer bg-1 active" id="bgLayer1"></div>
+    <div class="bg-layer bg-2" id="bgLayer2"></div>
+    <div class="bg-layer bg-3" id="bgLayer3"></div>
+    <div class="bg-layer bg-4" id="bgLayer4"></div>
+    <!-- Scroll hint -->
+    <div class="desktop-scroll-hint" id="desktopHint">
+      <span>Scroll</span>
+      <div class="desktop-scroll-hint-line"></div>
+    </div>
+
+    <!-- Layer 1: Intro / Title (Photo 1) -->
+    <div class="desktop-content-layer" id="dLayerIntro" style="opacity:1;transform:translateY(0);pointer-events:auto;">
+      <div class="divider"></div>
+      <p class="section-label">18 August 2026</p>
+      <p class="experience-highlight" style="font-size:clamp(2rem,4vw,3.2rem);font-weight:500;color:var(--gold);margin-bottom:0.5rem;">The Light</p>
+      <p class="experience-body" style="font-size:1rem;">Frigid Armadillo<br>Album Launch</p>
+    </div>
+
+    <!-- Layer 2: Details (Photo 2) -->
+    <div class="desktop-content-layer" id="dLayerDetails">
+      <div class="divider"></div>
+      <p class="section-label">The Details</p>
+      <div class="details-grid">
+        <div class="detail-item"><h3>Tuesday, 18 August 2026</h3></div>
+        <div class="detail-item"><h3>Artistry, Sandton</h3><p>An intimate space for a momentous night.</p></div>
+        <div class="detail-item"><h3>Album Launch</h3><p>The Light. A new chapter begins.</p></div>
+      </div>
+    </div>
+
+    <!-- Layer 3: The Moment (Photo 3) -->
+    <div class="desktop-content-layer" id="dLayerExperience">
+      <div class="divider"></div>
+      <p class="section-label">The Moment</p>
+      <p class="experience-highlight">This is not just a listening session.<br>It is the unveiling of something we've poured ourselves into.</p>
+      <p class="experience-body">The Light was made in the quiet hours. In the spaces between doubt and certainty. It is our offering to those who still believe that music can move you.<br><br>If you are reading this, the light found you. Welcome.</p>
+    </div>
+
+    <!-- Layer 4: RSVP (Photo 4) -->
+    <div class="desktop-content-layer" id="dLayerRsvp">
+      <div class="rsvp-container" style="max-height:85vh;overflow-y:auto;padding:1rem;">
+        <div class="divider"></div>
+        <h2>RSVP</h2>
+        <p class="section-sub">Confirm your presence. This is an intimate affair.</p>
+        <form id="rsvpFormDesktop">
+          <div class="form-row">
+            <div class="form-field"><label>Name *</label><input type="text" name="name" placeholder="Your Name" required class="capitalize"><span class="error-msg" id="dNameError">Name is required</span></div>
+            <div class="form-field"><label>Surname *</label><input type="text" name="surname" placeholder="Your Surname" required class="capitalize"><span class="error-msg" id="dSurnameError">Surname is required</span></div>
+          </div>
+          <div class="form-field"><label>Email *</label><input type="email" name="email" placeholder="name@email.com" required><span class="error-msg" id="dEmailError">Please enter a valid email address</span></div>
+          <div class="form-field" style="visibility:hidden;"><label>&nbsp;</label><input type="text" disabled></div>
+          <button type="submit" class="submit-btn"><span>Let's Go!</span></button>
+        </form>
+        <div class="success-state" id="dSuccessState"><h3>You're on the list.</h3><p>We'll be in touch closer to the date. See you at Artistry on the 18th.</p></div>
+        <div class="site-footer">
+          <a href="https://www.instagram.com/frigidarmadillo/" target="_blank">Instagram</a>
+          <a href="mailto:frigidarmadillo@gmail.com">Contact Us</a>
+          <p>Frigid Armadillo &copy; 2026</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ==========================================
+     MOBILE: Scrollable sections with bg images
+     ========================================== -->
+<div class="mobile-flow">
+
+  <!-- Section 1: Intro (Photo 1) -->
+  <section class="mobile-section">
+    <div class="bg-img" style="background-image:url('1.jpg');"></div>
+    <div class="section-content" style="text-align:center;">
+      <div class="divider"></div>
+      <p class="section-label">18 August 2026</p>
+      <p class="experience-highlight" style="font-size:clamp(2rem,8vw,3rem);font-weight:500;color:var(--gold);margin-bottom:0.5rem;">The Light</p>
+      <p class="experience-body" style="font-size:1rem;">Frigid Armadillo<br>Album Launch</p>
+    </div>
+    <div style="position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);width:1px;height:50px;background:linear-gradient(to bottom,transparent,var(--mid-grey));z-index:5;"></div>
+  </section>
+
+  <!-- Section 2: Details (Photo 2) -->
+  <section class="mobile-section reveal">
+    <div class="bg-img" style="background-image:url('2.jpg');background-size:cover;background-position:center 55%;"></div>
+    <div class="section-content">
+      <div class="divider"></div>
+      <p class="section-label">The Details</p>
+      <div class="details-grid">
+        <div class="detail-item stagger-1"><h3>Tuesday, 18 August 2026</h3></div>
+        <div class="detail-item stagger-2"><h3>Artistry, Sandton</h3><p>An intimate space for a momentous night.</p></div>
+        <div class="detail-item stagger-3"><h3>Album Launch</h3><p>The Light. A new chapter begins.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: The Moment (Photo 3) -->
+  <section class="mobile-section reveal">
+    <div class="bg-img" style="background-image:url('3.jpg');background-size:80% auto;background-position:center 30%;"></div>
+    <div class="section-content" style="text-align:center;">
+      <div class="divider"></div>
+      <p class="section-label">The Moment</p>
+      <p class="experience-highlight">This is not just a listening session.<br>It is the unveiling of something we've poured ourselves into.</p>
+      <p class="experience-body">The Light was made in the quiet hours. In the spaces between doubt and certainty. It is our offering to those who still believe that music can move you.<br><br>If you are reading this, the light found you. Welcome.</p>
+    </div>
+  </section>
+
+  <!-- Section 4: RSVP (Photo 4) -->
+  <section class="mobile-section reveal">
+    <div class="bg-img" style="background-image:url('4.jpg');"></div>
+    <div class="section-content">
+      <div class="divider"></div>
+      <h2 style="font-size:1.4rem;font-weight:400;text-align:center;margin-bottom:0.5rem;">RSVP</h2>
+      <p class="section-sub">Confirm your presence. This is an intimate affair.</p>
+      <form id="rsvpFormMobile">
+        <div class="form-row">
+          <div class="form-field"><label>Name *</label><input type="text" name="name" placeholder="Your Name" required class="capitalize"><span class="error-msg" id="mNameError">Name is required</span></div>
+          <div class="form-field"><label>Surname *</label><input type="text" name="surname" placeholder="Your Surname" required class="capitalize"><span class="error-msg" id="mSurnameError">Surname is required</span></div>
+        </div>
+        <div class="form-field"><label>Email *</label><input type="email" name="email" placeholder="name@email.com" required><span class="error-msg" id="mEmailError">Please enter a valid email address</span></div>
+        <div class="form-field" style="visibility:hidden;"><label>&nbsp;</label><input type="text" disabled></div>
+        <button type="submit" class="submit-btn"><span>Let's Go!</span></button>
+      </form>
+      <div class="success-state" id="mSuccessState"><h3>You're on the list.</h3><p>We'll be in touch closer to the date. See you at Artistry on the 18th.</p></div>
+    </div>
+  </section>
+
+  <div class="site-footer">
+    <a href="https://www.instagram.com/frigidarmadillo/" target="_blank">Instagram</a>
+    <a href="mailto:frigidarmadillo@gmail.com">Contact Us</a>
+    <p>Frigid Armadillo &copy; 2026</p>
+  </div>
+</div>
+
+
+<script>
+document.documentElement.classList.add('js-ready');
+
+function isMobile() { return window.innerWidth <= 768; }
+
+/* ===== DESKTOP: Parallax + Background transitions ===== */
+let parallaxActive = false;
+let scrollHandler = null;
+
+function initDesktopParallax() {
+  if (parallaxActive) return;
+
+  const desktopHint = document.getElementById('desktopHint');
+  const bgLayers = [
+    document.getElementById('bgLayer1'),
+    document.getElementById('bgLayer2'),
+    document.getElementById('bgLayer3'),
+    document.getElementById('bgLayer4')
+  ];
+  const dLayers = [
+    document.getElementById('dLayerIntro'),
+    document.getElementById('dLayerDetails'),
+    document.getElementById('dLayerExperience'),
+    document.getElementById('dLayerRsvp')
+  ];
+
+
+  let ticking = false;
+  scrollHandler = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const scrollY = window.scrollY;
+      const vh = window.innerHeight;
+      const total = Math.max(1, document.documentElement.scrollHeight - vh);
+      const progress = Math.min(scrollY / total, 1);
+
+      // (vinyl removed)
+
+      // Scroll hint fades
+      desktopHint.style.opacity = Math.max(0, 1 - scrollY / (vh * 0.25));
+
+      // Content layers + background switching
+      const numLayers = dLayers.length;
+      const ld = 1 / numLayers;
+
+      // Determine which background to show based on scroll progress
+      const activeIdx = Math.min(Math.floor(progress / ld), numLayers - 1);
+      bgLayers.forEach((bg, i) => {
+        if (i === activeIdx) bg.classList.add('active');
+        else bg.classList.remove('active');
+      });
+
+      // Content layer transitions
+      dLayers.forEach((layer, i) => {
+        const ls = i * ld, le = (i + 1) * ld;
+        const lm = ls + ld * 0.1, lfo = le - ld * 0.15;
+        let op = 0, ty = 30;
+        if (i === 0 && progress < lm) { op = 1; ty = 0; }
+        else if (progress >= ls && progress < le) {
+          if (progress < lm) { const f = (progress - ls) / (lm - ls); op = f; ty = 30 * (1 - f); }
+          else if (progress < lfo) { op = 1; ty = 0; }
+          else if (i < numLayers - 1) { const f = (progress - lfo) / (le - lfo); op = 1 - f; ty = -20 * f; }
+          else { op = 1; ty = 0; }
+        } else if (progress >= le && i === numLayers - 1) { op = 1; ty = 0; }
+        layer.style.opacity = op;
+        layer.style.transform = `translateY(${ty}px)`;
+        layer.style.pointerEvents = op > 0.5 ? 'auto' : 'none';
+      });
+
+      ticking = false;
+    });
+  };
+  window.addEventListener('scroll', scrollHandler, { passive: true });
+  scrollHandler();
+  parallaxActive = true;
+}
+
+function teardownDesktopParallax() {
+  if (!parallaxActive) return;
+  if (scrollHandler) window.removeEventListener('scroll', scrollHandler);
+  scrollHandler = null;
+  parallaxActive = false;
+}
+
+/* ===== MOBILE: Reveal on scroll ===== */
+let mobileObserver = null;
+
+function initMobileReveal() {
+  if (mobileObserver) return;
+  const reveals = document.querySelectorAll('.mobile-flow .reveal');
+  mobileObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+  reveals.forEach(el => mobileObserver.observe(el));
+}
+
+function teardownMobileReveal() {
+  if (mobileObserver) { mobileObserver.disconnect(); mobileObserver = null; }
+}
+
+function handleLayout() {
+  if (isMobile()) {
+    teardownDesktopParallax();
+    initMobileReveal();
+  } else {
+    teardownMobileReveal();
+    initDesktopParallax();
+  }
+}
+
+handleLayout();
+window.addEventListener('resize', handleLayout);
+
+
+/* ===== FORM VALIDATION ===== */
+function setupForm(formId, nameErrId, surnameErrId, emailErrId, phoneErrId, successId) {
+  const form = document.getElementById(formId);
+  if (!form) return;
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const n = form.querySelector('[name="name"]');
+    const s = form.querySelector('[name="surname"]');
+    const em = form.querySelector('[name="email"]');
+    const ph = null;
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    let valid = true;
+    [n, s, em, ph].forEach(el => el.classList.remove('error'));
+    document.querySelectorAll('.error-msg').forEach(m => m.classList.remove('visible'));
+    if (!n.value.trim()) { n.classList.add('error'); document.getElementById(nameErrId).classList.add('visible'); valid = false; }
+    if (!s.value.trim()) { s.classList.add('error'); document.getElementById(surnameErrId).classList.add('visible'); valid = false; }
+    if (!em.value.trim()) { em.classList.add('error'); const el = document.getElementById(emailErrId); el.textContent = 'Email is required'; el.classList.add('visible'); valid = false; }
+    else if (!regex.test(em.value.trim())) { em.classList.add('error'); const el = document.getElementById(emailErrId); el.textContent = 'Please enter a valid email address'; el.classList.add('visible'); valid = false; }
+
+    if (!valid) { const first = form.querySelector('.error'); if (first) first.focus(); return; }
+    const fd = new FormData(form);
+    const data = Object.fromEntries(fd.entries());
+    const btn = form.querySelector('.submit-btn');
+    btn.disabled = true;
+    btn.querySelector('span').textContent = 'Sending...';
+
+    // TODO: Replace with your Google Apps Script URL
+    fetch('YOUR_GOOGLE_APPS_SCRIPT_URL', {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(data)
+    })
+    .then(() => {
+      form.style.display = 'none';
+      document.getElementById(successId).style.display = 'block';
+    })
+    .catch(() => {
+      form.style.display = 'none';
+      document.getElementById(successId).style.display = 'block';
+    });
+  });
+}
+
+setupForm('rsvpFormDesktop', 'dNameError', 'dSurnameError', 'dEmailError', 'dPhoneError', 'dSuccessState');
+setupForm('rsvpFormMobile', 'mNameError', 'mSurnameError', 'mEmailError', 'mPhoneError', 'mSuccessState');
+</script>
+
+</body>
+</html>
