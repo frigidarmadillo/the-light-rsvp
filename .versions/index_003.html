@@ -34,6 +34,15 @@ body {
   line-height: 1.6;
 }
 
+/* Grain overlay */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 10000;
+}
 
 /* ============================================
    DESKTOP: Fullscreen slide experience
@@ -72,9 +81,6 @@ body {
 .bg-2 { background-image: url('2.jpg'); }
 .bg-3 { background-image: url('3.jpg'); }
 .bg-4 { background-image: url('4.jpg'); }
-
-.bg-2 { background-size: cover; background-position: center 55%; }
-.bg-3 { background-size: 80% auto; background-position: center 30%; }
 
 
 /* Scroll hint */
@@ -216,21 +222,21 @@ body {
 }
 
 .section-sub {
-  text-align: center; color: #ffffff; font-size: 0.8rem; margin-bottom: 2.5rem;
+  text-align: center; color: var(--white); font-size: 0.8rem; margin-bottom: 2.5rem;
 }
 
 .form-field { margin-bottom: 1.8rem; }
 
 .form-field label {
   display: block; font-size: 0.65rem; letter-spacing: 0.2em;
-  text-transform: uppercase; color: #ffffff; margin-bottom: 0.5rem;
+  text-transform: uppercase; color: var(--white); margin-bottom: 0.5rem;
 }
 
 .form-field input, .form-field select {
   width: 100%; padding: 0.8rem 0;
   font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 300;
-  border: none; border-bottom: 1px solid var(--light-grey);
-  background: transparent; color: #ffffff;
+  border: none; border-bottom: 1px solid var(--warm-grey);
+  background: transparent; color: var(--off-white);
   transition: border-color 0.4s ease; border-radius: 0; -webkit-appearance: none;
 }
 
@@ -238,7 +244,7 @@ body {
   outline: none; border-bottom-color: var(--gold);
 }
 
-.form-field input::placeholder { color: rgba(255,255,255,0.5); }
+.form-field input::placeholder { color: var(--warm-grey); }
 .form-field input.capitalize { text-transform: capitalize; }
 .form-field input.error { border-bottom-color: #8b3a3a; }
 
@@ -300,6 +306,29 @@ body {
 .site-footer a:hover { color: var(--gold); }
 .site-footer p { font-size: 0.65rem; color: var(--white); margin-top: 1rem; letter-spacing: 0.1em; }
 
+/* Plus ones chips */
+.plusone-chips {
+  display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;
+}
+
+.plusone-chip {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: 1px solid var(--warm-grey);
+  border-radius: 2px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem; font-weight: 300;
+  color: var(--off-white);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.plusone-chip.active {
+  background: rgba(212, 168, 67, 0.15);
+  border-color: var(--gold);
+  color: var(--off-white);
+}
 
 /* ============================================
    ANIMATIONS
@@ -397,8 +426,16 @@ body {
             <div class="form-field"><label>Surname *</label><input type="text" name="surname" placeholder="Your Surname" required class="capitalize"><span class="error-msg" id="dSurnameError">Surname is required</span></div>
           </div>
           <div class="form-field"><label>Email *</label><input type="email" name="email" placeholder="name@email.com" required><span class="error-msg" id="dEmailError">Please enter a valid email address</span></div>
-          <div class="form-field" style="visibility:hidden;"><label>&nbsp;</label><input type="text" disabled></div>
-          <button type="submit" class="submit-btn"><span>Let's Go!</span></button>
+          <div class="form-field"><label>Phone *</label><input type="tel" name="phone" placeholder="+27 XX XXX XXXX" required><span class="error-msg" id="dPhoneError">Phone number is required</span></div>
+          <div class="form-field"><label>Plus Ones <span style="font-weight:300;opacity:0.7;">(optional)</span></label>
+            <select name="plusones">
+              <option value="0" selected>Just me</option>
+              <option value="1">+1 guest</option>
+              <option value="2">+2 guests</option>
+              <option value="3">+3 guests</option>
+            </select>
+          </div>
+          <button type="submit" class="submit-btn"><span>Confirm My Spot</span></button>
         </form>
         <div class="success-state" id="dSuccessState"><h3>You're on the list.</h3><p>We'll be in touch closer to the date. See you at Artistry on the 18th.</p></div>
         <div class="site-footer">
@@ -431,7 +468,7 @@ body {
 
   <!-- Section 2: Details (Photo 2) -->
   <section class="mobile-section reveal">
-    <div class="bg-img" style="background-image:url('2.jpg');background-size:cover;background-position:center 55%;"></div>
+    <div class="bg-img" style="background-image:url('2.jpg');"></div>
     <div class="section-content">
       <div class="divider"></div>
       <p class="section-label">The Details</p>
@@ -445,7 +482,7 @@ body {
 
   <!-- Section 3: The Moment (Photo 3) -->
   <section class="mobile-section reveal">
-    <div class="bg-img" style="background-image:url('3.jpg');background-size:cover;background-position:center center;"></div>
+    <div class="bg-img" style="background-image:url('3.jpg');"></div>
     <div class="section-content" style="text-align:center;">
       <div class="divider"></div>
       <p class="section-label">The Moment</p>
@@ -456,7 +493,7 @@ body {
 
   <!-- Section 4: RSVP (Photo 4) -->
   <section class="mobile-section reveal">
-    <div class="bg-img" style="background-image:url('4.jpg');background-size:cover;background-position:center center;"></div>
+    <div class="bg-img" style="background-image:url('4.jpg');"></div>
     <div class="section-content">
       <div class="divider"></div>
       <h2 style="font-size:1.4rem;font-weight:400;text-align:center;margin-bottom:0.5rem;">RSVP</h2>
@@ -467,8 +504,17 @@ body {
           <div class="form-field"><label>Surname *</label><input type="text" name="surname" placeholder="Your Surname" required class="capitalize"><span class="error-msg" id="mSurnameError">Surname is required</span></div>
         </div>
         <div class="form-field"><label>Email *</label><input type="email" name="email" placeholder="name@email.com" required><span class="error-msg" id="mEmailError">Please enter a valid email address</span></div>
-        <div class="form-field" style="visibility:hidden;"><label>&nbsp;</label><input type="text" disabled></div>
-        <button type="submit" class="submit-btn"><span>Let's Go!</span></button>
+        <div class="form-field"><label>Phone *</label><input type="tel" name="phone" placeholder="+27 XX XXX XXXX" required><span class="error-msg" id="mPhoneError">Phone number is required</span></div>
+        <div class="form-field"><label>Plus Ones <span style="font-weight:300;opacity:0.7;">(optional)</span></label>
+          <div class="plusone-chips" id="mPlusChips">
+            <button type="button" class="plusone-chip active" data-value="0">Just me</button>
+            <button type="button" class="plusone-chip" data-value="1">+1</button>
+            <button type="button" class="plusone-chip" data-value="2">+2</button>
+            <button type="button" class="plusone-chip" data-value="3">+3</button>
+          </div>
+          <input type="hidden" name="plusones" id="mPlusHidden" value="0">
+        </div>
+        <button type="submit" class="submit-btn"><span>Confirm My Spot</span></button>
       </form>
       <div class="success-state" id="mSuccessState"><h3>You're on the list.</h3><p>We'll be in touch closer to the date. See you at Artistry on the 18th.</p></div>
     </div>
@@ -540,8 +586,7 @@ function initDesktopParallax() {
         const ls = i * ld, le = (i + 1) * ld;
         const lm = ls + ld * 0.1, lfo = le - ld * 0.15;
         let op = 0, ty = 30;
-        if (i === 0 && progress < lm) { op = 1; ty = 0; }
-        else if (progress >= ls && progress < le) {
+        if (progress >= ls && progress < le) {
           if (progress < lm) { const f = (progress - ls) / (lm - ls); op = f; ty = 30 * (1 - f); }
           else if (progress < lfo) { op = 1; ty = 0; }
           else if (i < numLayers - 1) { const f = (progress - lfo) / (le - lfo); op = 1 - f; ty = -20 * f; }
@@ -596,6 +641,20 @@ function handleLayout() {
 handleLayout();
 window.addEventListener('resize', handleLayout);
 
+/* ===== MOBILE: Plus one chips ===== */
+(function() {
+  const container = document.getElementById('mPlusChips');
+  const hidden = document.getElementById('mPlusHidden');
+  if (!container || !hidden) return;
+  container.addEventListener('click', function(e) {
+    const chip = e.target.closest('.plusone-chip');
+    if (!chip) return;
+    e.preventDefault();
+    container.querySelectorAll('.plusone-chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    hidden.value = chip.getAttribute('data-value');
+  });
+})();
 
 /* ===== FORM VALIDATION ===== */
 function setupForm(formId, nameErrId, surnameErrId, emailErrId, phoneErrId, successId) {
@@ -606,7 +665,7 @@ function setupForm(formId, nameErrId, surnameErrId, emailErrId, phoneErrId, succ
     const n = form.querySelector('[name="name"]');
     const s = form.querySelector('[name="surname"]');
     const em = form.querySelector('[name="email"]');
-    const ph = null;
+    const ph = form.querySelector('[name="phone"]');
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     let valid = true;
     [n, s, em, ph].forEach(el => el.classList.remove('error'));
@@ -615,7 +674,7 @@ function setupForm(formId, nameErrId, surnameErrId, emailErrId, phoneErrId, succ
     if (!s.value.trim()) { s.classList.add('error'); document.getElementById(surnameErrId).classList.add('visible'); valid = false; }
     if (!em.value.trim()) { em.classList.add('error'); const el = document.getElementById(emailErrId); el.textContent = 'Email is required'; el.classList.add('visible'); valid = false; }
     else if (!regex.test(em.value.trim())) { em.classList.add('error'); const el = document.getElementById(emailErrId); el.textContent = 'Please enter a valid email address'; el.classList.add('visible'); valid = false; }
-
+    if (!ph.value.trim()) { ph.classList.add('error'); document.getElementById(phoneErrId).classList.add('visible'); valid = false; }
     if (!valid) { const first = form.querySelector('.error'); if (first) first.focus(); return; }
     const fd = new FormData(form);
     const data = Object.fromEntries(fd.entries());
