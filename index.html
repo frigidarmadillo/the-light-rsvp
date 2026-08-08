@@ -736,11 +736,8 @@ function setupForm(formId, nameErrId, surnameErrId, emailErrId, phoneErrId, succ
     btn.disabled = true;
     btn.querySelector('span').textContent = 'Sending...';
 
-    // TODO: Replace with your Google Apps Script URL
     fetch('https://script.google.com/macros/s/AKfycbzRBxQnAMNxQd5QaX39j44SAdyRRqnY6O1aUPgsbbQR86PF5rtCeGptHSaj5b_MqG6yQw/exec', {
       method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify(data)
     })
     .then(() => {
