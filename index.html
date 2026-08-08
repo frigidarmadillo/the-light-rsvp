@@ -738,23 +738,14 @@ function setupForm(formId, nameErrId, surnameErrId, emailErrId, phoneErrId, succ
 
     const scriptUrl = 'https://script.google.com/macros/s/AKfycbzzopPXnUBf6m8HgwqFCzHjRCX9J_69EBRm2jRAYqlpGyWXPH9ZyXz2_OONnwyyBCr58g/exec';
 
-    // Send as URL-encoded form data so Apps Script can read e.parameter
+    // Use GET with query params — most reliable method for Apps Script cross-origin
     const params = new URLSearchParams(data).toString();
-
-    fetch(scriptUrl, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: params
-    })
-    .then(() => {
+    const img = new Image();
+    img.onload = img.onerror = () => {
       form.style.display = 'none';
       document.getElementById(successId).style.display = 'block';
-    })
-    .catch(() => {
-      form.style.display = 'none';
-      document.getElementById(successId).style.display = 'block';
-    });
+    };
+    img.src = scriptUrl + '?' + params;
   });
 }
 
