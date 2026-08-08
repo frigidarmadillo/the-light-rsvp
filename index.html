@@ -738,10 +738,14 @@ function setupForm(formId, nameErrId, surnameErrId, emailErrId, phoneErrId, succ
 
     const scriptUrl = 'https://script.google.com/macros/s/AKfycbzzopPXnUBf6m8HgwqFCzHjRCX9J_69EBRm2jRAYqlpGyWXPH9ZyXz2_OONnwyyBCr58g/exec';
 
+    // Send as URL-encoded form data so Apps Script can read e.parameter
+    const params = new URLSearchParams(data).toString();
+
     fetch(scriptUrl, {
       method: 'POST',
       mode: 'no-cors',
-      body: fd
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params
     })
     .then(() => {
       form.style.display = 'none';
