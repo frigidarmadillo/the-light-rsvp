@@ -736,7 +736,7 @@ function setupForm(formId, nameErrId, surnameErrId, emailErrId, phoneErrId, succ
     btn.disabled = true;
     btn.querySelector('span').textContent = 'Sending...';
 
-    fetch('https://script.google.com/macros/s/AKfycbzRBxQnAMNxQd5QaX39j44SAdyRRqnY6O1aUPgsbbQR86PF5rtCeGptHSaj5b_MqG6yQw/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbzdUH_LcL8TSHkTV1WxiK9JFDnkBSje79ZvYx2M0iWMWoznyToHJ-90uI2TUfPd-ve4Sw/exec', {
       method: 'POST',
       body: JSON.stringify(data)
     })
