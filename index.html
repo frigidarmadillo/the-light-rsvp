@@ -736,9 +736,12 @@ function setupForm(formId, nameErrId, surnameErrId, emailErrId, phoneErrId, succ
     btn.disabled = true;
     btn.querySelector('span').textContent = 'Sending...';
 
-    fetch('https://script.google.com/macros/s/AKfycbzdUH_LcL8TSHkTV1WxiK9JFDnkBSje79ZvYx2M0iWMWoznyToHJ-90uI2TUfPd-ve4Sw/exec', {
+    const scriptUrl = 'https://script.google.com/macros/s/AKfycbzy1SiAyFQLo_MGpiBW3HKc05yx1dZEH6XcKJFlFGDR3VRG56fj2hTReTPhJ0_6o1R1/exec';
+
+    fetch(scriptUrl, {
       method: 'POST',
-      body: JSON.stringify(data)
+      mode: 'no-cors',
+      body: fd
     })
     .then(() => {
       form.style.display = 'none';
